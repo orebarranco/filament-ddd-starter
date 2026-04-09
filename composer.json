@@ -1,0 +1,112 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "orebarranco/filament-ddd-starter",
+    "type": "project",
+    "description": "Production-ready Laravel starter kit with FilamentPHP v5 and Domain-Driven Design architecture.",
+    "keywords": ["laravel", "filament", "ddd", "starter-kit", "boilerplate"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.4",
+        "ext-zip": "*",
+        "bezhansalleh/filament-shield": "^4.2",
+        "filament/filament": "^5.4.3",
+        "laravel-lang/common": ">=6.8",
+        "laravel/framework": "^13.0",
+        "laravel/pulse": "^1.7",
+        "laravel/tinker": "^3.0",
+        "spatie/laravel-backup": "^10.2"
+    },
+    "require-dev": {
+        "driftingly/rector-laravel": "^2.2",
+        "fakerphp/faker": "^1.24.1",
+        "laravel/boost": "^2.4.1",
+        "laravel/pail": "^1.2.6",
+        "laravel/pint": "^1.29",
+        "laravel/sail": "^1.56",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.9.2",
+        "nunomaduro/larastan": "^3.9",
+        "pestphp/pest": "^4.4.3",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "rector/rector": "^2.3.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Domain\\": "src/Domain/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "lint": [
+            "rector",
+            "pint --parallel"
+        ],
+        "test:lint": [
+            "pint --parallel --test",
+            "rector --dry-run"
+        ],
+        "test:unit": "XDEBUG_MODE=\"coverage\" pest --parallel --coverage --compact",
+        "analyse": "phpstan analyse --memory-limit=256M",
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@test:unit",
+            "@test:lint"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan boost:update --ansi",
+            "@php artisan lang:update"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
