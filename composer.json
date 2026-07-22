@@ -62,8 +62,8 @@
             "pint --parallel"
         ],
         "test:lint": [
-            "pint --parallel --test",
-            "rector --dry-run --no-progress-bar"
+            "rector --dry-run --no-progress-bar",
+            "pint --parallel --test"
         ],
         "test:unit": "pest --parallel --compact",
         "analyse": "phpstan analyse --memory-limit=512M --no-progress",

@@ -1,12 +1,12 @@
 {
     "agents": [
-        "junie",
-        "claude_code"
+        "claude_code",
+        "opencode"
     ],
+    "cloud": false,
     "guidelines": true,
-    "herd_mcp": false,
     "mcp": true,
-    "nightwatch_mcp": false,
+    "nightwatch": false,
     "packages": [
         "filament/filament",
         "spatie/laravel-backup"
