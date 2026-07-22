@@ -1,0 +1,9 @@
+domains:
+    - filament-ddd-starter
+php_version: "8.4"
+framework: laravel
+framework_version: "13"
+services:
+    - mysql
+    - mailpit
+    - redis
