@@ -12,6 +12,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use STS\FilamentImpersonate\Actions\Impersonate;
 
 final class UsersTable
 {
@@ -47,6 +48,8 @@ final class UsersTable
                     ->label('Activo'),
             ])
             ->recordActions([
+                Impersonate::make()
+                    ->label('Suplantar'),
                 EditAction::make(),
                 DeleteAction::make()
                     ->using(fn (User $record, DeleteUserAction $deleteUserAction): bool => $deleteUserAction->execute($record)),

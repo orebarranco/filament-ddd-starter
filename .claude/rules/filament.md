@@ -168,6 +168,42 @@ El rol `super_admin` tiene acceso irrestricto (configurado en `config/filament-s
 
 ---
 
+## Acceso al panel: dos efectos que no se ven en el código
+
+`User::canAccessPanel()` exige cuenta activa y al menos un rol. Dos funcionalidades del
+panel consultan ese método por su cuenta, y el resultado sorprende si no se sabe.
+
+### La recuperación de contraseña no avisa a quien no puede entrar
+
+`Filament\Auth\Pages\PasswordReset\RequestPasswordReset` comprueba `canAccessPanel()`
+antes de enviar el correo y, si falla, **no envía nada y no informa de por qué**. El
+formulario responde igual que si lo hubiera enviado, a propósito, para no revelar qué
+direcciones existen.
+
+Consecuencia práctica: un usuario sin rol, o suspendido, pide el enlace y no llega nunca.
+No está roto. Si hay que darle acceso, se le asigna un rol o se reactiva la cuenta; el
+enlace no es la vía.
+
+### La suplantación exige que el objetivo pueda entrar solo
+
+`canBeImpersonated()` requiere cuenta activa y rol por el mismo motivo. Sin esa condición
+la suplantación cambia el guard y aterriza en un 403, y desde ahí la única salida es el
+banner de volver. Se comprueba antes para que la acción ni aparezca.
+
+Un `super_admin` no puede suplantar a otro `super_admin`: no aporta nada para dar soporte
+y difumina quién actuó de verdad.
+
+El vendor evalúa `canImpersonate()` del actor **antes** que `canBeImpersonated()` del
+objetivo (`STS\FilamentImpersonate\Actions\Impersonate`). Ese orden no está versionado,
+así que los tests de `tests/Unit/Domain/Identity/Models/UserTest.php` lo cubren por los
+dos lados.
+
+Y un aviso operativo: con `MAIL_MAILER=log`, que es el valor de `.env.example`, el correo
+de recuperación se escribe en `storage/logs/laravel.log` en vez de enviarse. En una
+instalación limpia es ahí donde hay que buscarlo.
+
+---
+
 ## Lo que NO se hace
 
 - **No** poner lógica de negocio en un Resource, Page, Form o Table.
