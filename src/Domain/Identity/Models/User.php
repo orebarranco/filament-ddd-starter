@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Domain\Identity\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Policies\UserPolicy;
 use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,10 +22,12 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $email
  * @property CarbonInterface|null $email_verified_at
  * @property string $password
+ * @property bool $active
  * @property string|null $remember_token
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
  */
+#[UsePolicy(UserPolicy::class)]
 final class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
@@ -41,6 +45,7 @@ final class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'active',
     ];
 
     /**
@@ -53,9 +58,25 @@ final class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
+    /**
+     * `active` is the account kill switch: a suspended user is turned away
+     * while its roles stay intact for the day it comes back. The role carries
+     * the authority. Keeping the two apart is deliberate — an `is_admin`
+     * column would duplicate what the role already states, leaving two
+     * sources of truth for the same question.
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        if (! $this->active) {
+            return false;
+        }
+
+        return $this->roles()->exists();
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole(config()->string('filament-shield.super_admin.name', 'super_admin'));
     }
 
     protected static function newFactory(): UserFactory
@@ -73,6 +94,7 @@ final class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'active' => 'boolean',
         ];
     }
 }

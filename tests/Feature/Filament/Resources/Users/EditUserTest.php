@@ -11,7 +11,7 @@ use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 
 beforeEach(function (): void {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::factory()->superAdmin()->create());
 });
 
 it('can load the edit user page', function (): void {
@@ -147,4 +147,36 @@ it('validates that email is unique ignoring the current record', function (): vo
         ->call('save')
         ->assertHasFormErrors(['email' => 'unique'])
         ->assertNotNotified();
+});
+
+it('can suspend a user from the edit page', function (): void {
+    $user = User::factory()->create();
+
+    Livewire::test(EditUser::class, ['record' => $user->id])
+        ->assertSchemaStateSet(['active' => true])
+        ->fillForm([
+            'name' => $user->name,
+            'email' => $user->email,
+            'active' => false,
+        ])
+        ->call('save')
+        ->assertNotified();
+
+    expect($user->fresh()->active)->toBeFalse();
+});
+
+it('can reinstate a suspended user from the edit page', function (): void {
+    $user = User::factory()->inactive()->create();
+
+    Livewire::test(EditUser::class, ['record' => $user->id])
+        ->assertSchemaStateSet(['active' => false])
+        ->fillForm([
+            'name' => $user->name,
+            'email' => $user->email,
+            'active' => true,
+        ])
+        ->call('save')
+        ->assertNotified();
+
+    expect($user->fresh()->active)->toBeTrue();
 });

@@ -10,6 +10,7 @@ final readonly class UserData
         public string $name,
         public string $email,
         public ?string $password = null,
+        public bool $active = true,
     ) {}
 
     /** @param array<string, mixed> $data */
@@ -19,6 +20,7 @@ final readonly class UserData
             name: $data['name'],
             email: $data['email'],
             password: isset($data['password']) && filled($data['password']) ? $data['password'] : null,
+            active: (bool) ($data['active'] ?? true),
         );
     }
 }
