@@ -9,4 +9,5 @@
 /.github export-ignore
 .lerd.yaml export-ignore
 CHANGELOG.md export-ignore
+CONTRIBUTING.md export-ignore
 .styleci.yml export-ignore
