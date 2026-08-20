@@ -79,6 +79,26 @@ final class User extends Authenticatable implements FilamentUser
         return $this->hasRole(config()->string('filament-shield.super_admin.name', 'super_admin'));
     }
 
+    public function canImpersonate(): bool
+    {
+        return $this->isSuperAdmin();
+    }
+
+    /**
+     * The target must be able to reach the panel on its own, or the swap lands
+     * on a 403 whose only way out is the banner. Another super admin is off
+     * limits: impersonating an equal buys no support insight and hides who
+     * actually acted.
+     */
+    public function canBeImpersonated(): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return false;
+        }
+
+        return $this->active && $this->roles()->exists();
+    }
+
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
