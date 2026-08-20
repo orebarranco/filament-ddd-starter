@@ -2,9 +2,21 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "orebarranco/filament-ddd-starter",
     "type": "project",
-    "description": "Production-ready Laravel starter kit with FilamentPHP v5 and Domain-Driven Design architecture.",
-    "keywords": ["laravel", "filament", "ddd", "starter-kit", "boilerplate"],
+    "description": "Starter kit Laravel para proyectos en español, con FilamentPHP v5 y arquitectura Domain-Driven Design.",
+    "keywords": ["laravel", "filament", "ddd", "starter-kit", "boilerplate", "spanish", "espanol"],
+    "homepage": "https://github.com/orebarranco/filament-ddd-starter",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Oreste Barranco Hernández",
+            "email": "orebarranco90@gmail.com",
+            "homepage": "https://github.com/orebarranco"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/orebarranco/filament-ddd-starter/issues",
+        "source": "https://github.com/orebarranco/filament-ddd-starter"
+    },
     "require": {
         "php": "^8.4",
         "ext-zip": "*",
@@ -79,8 +91,7 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan boost:update --ansi",
-            "@php artisan lang:update"
+            "@php artisan boost:update --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
