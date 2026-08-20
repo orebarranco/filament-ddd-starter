@@ -4,7 +4,19 @@
     "type": "project",
     "description": "Production-ready Laravel starter kit with FilamentPHP v5 and Domain-Driven Design architecture.",
     "keywords": ["laravel", "filament", "ddd", "starter-kit", "boilerplate"],
+    "homepage": "https://github.com/orebarranco/filament-ddd-starter",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Oreste Barranco Hernández",
+            "email": "orebarranco90@gmail.com",
+            "homepage": "https://github.com/orebarranco"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/orebarranco/filament-ddd-starter/issues",
+        "source": "https://github.com/orebarranco/filament-ddd-starter"
+    },
     "require": {
         "php": "^8.4",
         "ext-zip": "*",
