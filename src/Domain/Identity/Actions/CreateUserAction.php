@@ -15,6 +15,7 @@ final class CreateUserAction
             'name' => $data->name,
             'email' => $data->email,
             'password' => $data->password,
+            'active' => $data->active,
         ]);
     }
 }

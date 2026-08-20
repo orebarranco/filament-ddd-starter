@@ -154,6 +154,28 @@ php artisan shield:generate --resource=NombreResource --panel=admin --no-interac
 Shield crea automáticamente la Policy en `app/Policies/` y registra todos los permisos Spatie.
 **No usar `make:policy` manualmente** — Shield es la fuente de verdad para policies de recursos Filament.
 
+**7b. Conectar la Policy al modelo — OBLIGATORIO:**
+```php
+use App\Policies\NombreModeloPolicy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+
+#[UsePolicy(NombreModeloPolicy::class)]
+final class NombreModelo extends Model
+```
+El autodescubrimiento de policies de Laravel asume `App\Models\X` → `App\Policies\XPolicy`. Como
+nuestros modelos viven en `Domain\{Dominio}\Models\`, **la resolución falla en silencio** y
+`Gate::getPolicyFor()` devuelve `null`.
+
+Y esto falla **abierto**, no cerrado: cuando Filament no encuentra policy para un modelo, permite la
+acción. Sin este atributo, cada permiso de Shield que escribas en la Policy es código muerto y
+cualquier usuario con acceso al panel tiene CRUD completo sobre el recurso.
+
+Shield solo auto-registra su propio modelo `Role`, nunca los tuyos. Verifícalo siempre:
+```bash
+php artisan tinker --execute 'var_dump(get_class(Illuminate\Support\Facades\Gate::getPolicyFor(Domain\NombreDominio\Models\NombreModelo::class)));'
+```
+Y déjalo cubierto con un test, como `tests/Unit/Domain/Identity/Models/UserTest.php`.
+
 **8. Crear tests:**
 ```bash
 php artisan make:test --pest --no-interaction NombreDominio/CreateNombreTest
@@ -169,3 +191,7 @@ php artisan make:test --pest --no-interaction NombreDominio/UpdateNombreTest
 - **Nunca** acceder a `$request` dentro de una Action. La Action recibe un DTO.
 - El DTO es la frontera: valida y normaliza datos de entrada antes de pasarlos a la Action.
 - Las Actions son `final`. No se extienden, se componen.
+- Todo modelo de dominio con Policy lleva `#[UsePolicy(...)]`. Sin él la autorización falla abierto.
+- El acceso al panel se decide con el rol, nunca con una columna `is_admin`: el rol ya responde
+  "qué puede hacer este usuario", y duplicarlo crea dos fuentes de verdad. La columna `active` es
+  otra pregunta distinta —"¿sigue viva esta cuenta?"— y por eso sí es una columna.

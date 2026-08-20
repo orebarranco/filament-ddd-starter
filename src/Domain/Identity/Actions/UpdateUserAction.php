@@ -14,6 +14,7 @@ final class UpdateUserAction
         $attributes = [
             'name' => $data->name,
             'email' => $data->email,
+            'active' => $data->active,
         ];
 
         if ($data->password !== null) {

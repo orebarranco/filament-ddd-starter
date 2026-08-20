@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 final class UserForm
@@ -39,7 +40,12 @@ final class UserForm
                     ->multiple()
                     ->relationship(titleAttribute: 'name')
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->helperText('Sin ningún rol asignado, el usuario no puede entrar al panel.'),
+                Toggle::make('active')
+                    ->label('Activo')
+                    ->default(true)
+                    ->helperText('Al desactivarlo se le niega el acceso al panel sin perder sus roles.'),
             ]);
     }
 }

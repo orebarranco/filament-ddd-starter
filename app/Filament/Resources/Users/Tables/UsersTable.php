@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 final class UsersTable
@@ -26,6 +27,10 @@ final class UsersTable
                     ->label('Correo electrónico')
                     ->searchable()
                     ->sortable(),
+                IconColumn::make('active')
+                    ->label('Activo')
+                    ->boolean()
+                    ->sortable(),
                 IconColumn::make('email_verified_at')
                     ->label('Verificado')
                     ->boolean()
@@ -37,7 +42,10 @@ final class UsersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([])
+            ->filters([
+                TernaryFilter::make('active')
+                    ->label('Activo'),
+            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make()

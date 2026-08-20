@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 
 beforeEach(function (): void {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::factory()->superAdmin()->create());
 });
 
 it('can load the create user page', function (): void {
@@ -91,4 +91,31 @@ it('validates that email is unique', function (): void {
         ->call('create')
         ->assertHasFormErrors(['email' => 'unique'])
         ->assertNotNotified();
+});
+
+it('creates the user active by default', function (): void {
+    Livewire::test(CreateUser::class)
+        ->fillForm([
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'secure_password',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    expect(User::query()->where('email', 'john@example.com')->sole()->active)->toBeTrue();
+});
+
+it('can create a suspended user', function (): void {
+    Livewire::test(CreateUser::class)
+        ->fillForm([
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'secure_password',
+            'active' => false,
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    expect(User::query()->where('email', 'john@example.com')->sole()->active)->toBeFalse();
 });
