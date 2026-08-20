@@ -91,14 +91,16 @@ database access resetting it by hand.
 
 ### 3.3. Idioma
 
-**Los artefactos técnicos van en inglés**: mensajes de commit, cuerpos de PR,
-nombres de clase, de método y de test, y comentarios en el código.
+**Lo que viaja con el código va en inglés**: mensajes de commit, nombres de
+clase, de método y de test, y comentarios en el código.
 
 **La copia de interfaz va en español**: etiquetas, textos de ayuda y mensajes
 que ve quien usa el panel. Este starter está orientado a proyectos en español
-—`APP_LOCALE=es`—, y esa es la única parte donde el idioma del usuario manda.
+—`APP_LOCALE=es`—, así que el panel se entrega en el idioma de quien lo usa.
 
-La documentación del repositorio, incluido este fichero, va en español.
+**La documentación del repositorio va en español**: este fichero, el README,
+las reglas de `.claude/rules/` y los cuerpos de Pull Request. Los lee quien
+revisa aquí, y todo lo demás que lee está en español.
 
 ### 3.4. Tipos
 
