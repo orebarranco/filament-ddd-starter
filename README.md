@@ -2,6 +2,10 @@
 
 Starter kit de producción para Laravel basado en **FilamentPHP v5** con arquitectura **Domain-Driven Design**.
 
+Pensado para proyectos en español: el panel, los mensajes de validación y los datos
+de prueba vienen en español de fábrica (`APP_LOCALE=es`, `APP_FAKER_LOCALE=es_ES`).
+Para cambiarlo, ajusta esas variables en tu `.env`.
+
 ## Stack
 
 | Capa | Tecnología |
