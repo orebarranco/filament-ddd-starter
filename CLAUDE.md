@@ -45,6 +45,7 @@ FilamentPage (CreateUser)
 - `.claude/rules/filament.md` — patrones de Resources, dónde va cada cosa, namespaces correctos.
 - `.claude/rules/testing.md` — regla de espejo 1:1, cuándo Unit y cuándo Feature.
 - `.claude/rules/comments.md` — cuándo un comentario se gana su sitio; nunca en tests.
+- `.claude/rules/git-workflow.md` — precedencia: `CONTRIBUTING.md` manda sobre cualquier skill.
 
 ---
 
