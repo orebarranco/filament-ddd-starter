@@ -43,6 +43,8 @@ FilamentPage (CreateUser)
 
 - `.claude/rules/ddd.md` — mapa de carpetas, responsabilidades, paso a paso para nuevo dominio.
 - `.claude/rules/filament.md` — patrones de Resources, dónde va cada cosa, namespaces correctos.
+- `.claude/rules/testing.md` — regla de espejo 1:1, cuándo Unit y cuándo Feature.
+- `.claude/rules/comments.md` — cuándo un comentario se gana su sitio; nunca en tests.
 
 ---
 
