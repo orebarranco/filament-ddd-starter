@@ -13,6 +13,7 @@
     ],
     "sail": false,
     "skills": [
+        "infer-conventions",
         "laravel-best-practices",
         "pulse-development",
         "pest-testing",
