@@ -32,9 +32,22 @@ updates:
       prefix: chore(deps)
       prefix-development: chore(deps-dev)
     groups:
+      # vite and laravel-vite-plugin are locked together by peer dependency:
+      # the plugin's 3.x line requires vite ^8, its 2.x line requires vite ^7.
+      # Split into separate pull requests, each one is unmergeable on its own.
+      # No update-types here on purpose, so majors stay grouped too.
+      vite:
+        patterns:
+          - vite
+          - laravel-vite-plugin
+          - "@tailwindcss/vite"
       npm:
         patterns:
           - "*"
+        exclude-patterns:
+          - vite
+          - laravel-vite-plugin
+          - "@tailwindcss/vite"
         update-types:
           - minor
           - patch
