@@ -38,11 +38,17 @@ El panel de administración queda en `/admin`.
 
 ## Primer arranque
 
-`migrate --seed` crea el rol `super_admin` y el primer administrador:
+`migrate --seed` crea el catálogo de permisos, el rol `super_admin` y el primer
+administrador:
 
 ```
 admin@example.com / password
 ```
+
+El catálogo lo siembra `database/seeders/ShieldSeeder.php`. `super_admin` no
+lleva ninguno de esos permisos y no le hacen falta: entra por el gate de Shield,
+que se resuelve antes de consultar cualquier policy. Están ahí para los roles
+limitados que definas tú.
 
 **Cámbialos antes de exponer el panel a cualquier red.** Están en
 `database/seeders/SuperAdminSeeder.php`.
@@ -68,7 +74,16 @@ Eso tiene dos efectos que conviene saber, porque no parecen lo que son:
 
 ```bash
 php artisan shield:generate --resource=NombreResource --panel=admin --no-interaction
+php artisan shield:seeder --force --no-interaction
 ```
+
+El segundo comando es el que se olvida. `shield:generate` crea los permisos en
+**tu** base de datos; `shield:seeder` los vuelca a `ShieldSeeder.php` para que
+viajen en el repositorio y existan también en las demás instalaciones. Sin él,
+el resource nuevo funciona en tu máquina y en ningún otro sitio.
+
+No hace falta que te acuerdes: `ShieldSeederTest` compara lo que Shield descubre
+hoy contra lo que el seeder siembra, y falla nombrando los permisos que falten.
 
 Y conecta la policy al modelo con `#[UsePolicy(...)]`. **Sin ese atributo la
 autorización falla abierto**: los modelos viven en `Domain\{Dominio}\Models\`,

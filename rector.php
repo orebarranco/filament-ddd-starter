@@ -40,6 +40,11 @@ return RectorConfig::configure()
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         MakeInheritedMethodVisibilitySameAsParentRector::class,
+        // Regenerated verbatim by `shield:seeder`, so it has to stay faithful
+        // to the vendor stub. Normalising it here means every regeneration
+        // arrives as a diff against our own rules. Skipping is by path: Rector
+        // resolves skips against file paths, not class names.
+        __DIR__.'/database/seeders/ShieldSeeder.php',
     ])
     ->withPreparedSets(
         deadCode: true,

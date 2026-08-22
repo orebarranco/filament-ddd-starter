@@ -85,10 +85,16 @@ return [
     | assigned to users who should have access to your Filament panels but
     | don't need any specific permissions beyond basic authentication.
     |
+    | Disabled here on purpose. The role is only honoured through Shield's
+    | `HasPanelShield` trait, which assigns it to every user on creation. This
+    | application decides panel access from the roles a user actually holds, so
+    | a brand new user is meant to be turned away until someone grants it one.
+    | Handing out a role automatically would defeat that.
+    |
     */
 
     'panel_user' => [
-        'enabled' => true,
+        'enabled' => false,
         'name' => 'panel_user',
     ],
 
