@@ -150,9 +150,22 @@ php artisan make:filament-resource --no-interaction NombreModelo
 **7. Generar permisos y Policy con Filament Shield:**
 ```bash
 php artisan shield:generate --resource=NombreResource --panel=admin --no-interaction
+php artisan shield:seeder --force --no-interaction
 ```
 Shield crea automáticamente la Policy en `app/Policies/` y registra todos los permisos Spatie.
 **No usar `make:policy` manualmente** — Shield es la fuente de verdad para policies de recursos Filament.
+
+El segundo comando **no es opcional**. `shield:generate` solo escribe en la base de datos que
+tengas delante; `shield:seeder` regenera `database/seeders/ShieldSeeder.php` para que los permisos
+viajen en el repositorio. Olvidarlo deja el resource funcionando en tu máquina y roto en las demás.
+
+Va **sin `--option`**: con `--option=permissions_via_roles` el bloque de permisos directos se salta
+entero, y como los roles de este starter no llevan permisos propios, el snapshot saldría vacío.
+Nunca `--with-users`: mete usuarios reales en un fichero versionado.
+
+`ShieldSeeder.php` es un volcado regenerable, no un fichero que se edite a mano. Está excluido de
+Rector (`rector.php`, por path) y de Pint (`pint.json`, `notPath`) para que siga siendo fiel al stub
+del vendor; si lo normalizas, cada regeneración vuelve como un diff contra tus propias reglas.
 
 **7b. Conectar la Policy al modelo — OBLIGATORIO:**
 ```php

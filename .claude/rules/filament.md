@@ -152,7 +152,31 @@ php artisan shield:generate --resource=NombreResource --panel=admin --no-interac
 
 # Regenerar todo (si se añaden resources/pages/widgets)
 php artisan shield:generate --all --panel=admin --ignore-existing-policies --no-interaction
+
+# Y siempre después: volcar los permisos al seeder versionado
+php artisan shield:seeder --force --no-interaction
 ```
+
+### `#[UsePolicy]` también blinda la policy contra la regeneración
+
+El atributo tiene un segundo efecto que no está en la documentación de Shield y
+que conviene conocer antes de ejecutar un `shield:generate --all`: Shield detecta
+que la policy está provista explícitamente y **salta la generación**. La salida
+lo dice tal cual:
+
+```
+UserPolicy .. skipped — provided by App\Policies\UserPolicy
+```
+
+`RolePolicy` no tiene esa protección y se regenera siempre, porque el modelo es
+`Spatie\Permission\Models\Role` y a una clase de vendor no le puedes poner el
+atributo. Al regenerarla pierde `final`, recupera parámetros de modelo sin usar y
+se queda sin newline final: deshace el trabajo de Pint y de Rector. Si ejecutas
+`--all`, revisa el diff de esa policy antes de commitear.
+
+Por eso `shield:generate` **no** vive en `composer setup`: es un generador de
+código, y el arranque de una instalación no debe reescribir `app/`. Los permisos
+llegan como dato, vía `ShieldSeeder`.
 
 Patrón generado (ejemplo real de `UserPolicy`):
 ```php
