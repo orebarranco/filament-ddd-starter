@@ -5,9 +5,9 @@ Todos los cambios relevantes de este proyecto se documentan aquí.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
 el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
-## [Sin publicar]
+## [1.0.0] - 2026-08-22
 
-Todo lo de abajo está en `main` y saldrá en la primera versión publicada.
+Primera versión publicada.
 
 ### Añadido
 
@@ -27,6 +27,10 @@ Todo lo de abajo está en `main` y saldrá en la primera versión publicada.
 - `.claude/rules/comments.md`, con la norma de comentarios del proyecto.
 - Configuración de Dependabot para Composer, npm y las actions del workflow,
   con las actualizaciones menores agrupadas y las mayores separadas.
+- `ShieldSeeder` versionado con el catálogo completo de permisos. Antes
+  `shield:generate` solo escribía en la base de datos que tuvieras delante, así
+  que una instalación nueva arrancaba con cero permisos y las policies no tenían
+  nada que evaluar.
 
 ### Corregido
 
@@ -50,6 +54,8 @@ Todo lo de abajo está en `main` y saldrá en la primera versión publicada.
   ruido. Las traducciones se quedan; ejecútalo a mano cuando toque.
 - `define_via_gate` de Shield pasa a `true`, de modo que `super_admin` atraviesa
   las comprobaciones de permisos por su interceptor de gate.
+- El rol `panel_user` de Shield queda desactivado. No llevaba ningún permiso, y
+  un rol vacío solo sirve para que alguien lo asigne y crea haber concedido algo.
 - Dependencias actualizadas: Laravel 13.26, Filament 5.7.6, Shield 4.3.1,
   Pulse 1.8, laravel-backup 10.3.2, Pest 4.7.8, vite 8 con
   `laravel-vite-plugin` 3. `composer audit` pasó de 8 advisorías a ninguna.
@@ -62,3 +68,5 @@ Todo lo de abajo está en `main` y saldrá en la primera versión publicada.
   huérfanos que viajaban en cada instalación.
 - El usuario «Test User» sin rol del seeder, sustituido por el administrador
   real que crea `SuperAdminSeeder`.
+
+[1.0.0]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.0
