@@ -25,20 +25,21 @@ Para cambiarlo, ajusta esas variables en tu `.env`.
 ```bash
 laravel new mi-proyecto --using=orebarranco/filament-ddd-starter
 cd mi-proyecto
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
 npm install && npm run build
 
 # Servidor de desarrollo
 composer run dev
 ```
 
+`laravel new` ya deja el proyecto arrancado: copia `.env`, genera la clave,
+migra y siembra. Esos pasos viven en `post-create-project-cmd` dentro de
+`composer.json`; no hace falta repetirlos a mano.
+
 El panel de administración queda en `/admin`.
 
 ## Primer arranque
 
-`migrate --seed` crea el catálogo de permisos, el rol `super_admin` y el primer
+El sembrado crea el catálogo de permisos, el rol `super_admin` y el primer
 administrador:
 
 ```
