@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="La misma Action consumida desde el panel de Filament y desde un controlador de API">
+  <rect width="1200" height="630" fill="#11141a"/>
+
+  <text x="60" y="88" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#f2f5f9">La lógica de negocio se escribe una vez</text>
+  <text x="60" y="130" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" fill="#8b97a8">Una Action. No sabe quién la llama.</text>
+
+  <g>
+    <rect x="60" y="180" width="510" height="300" rx="10" fill="#171b22" stroke="#262c36"/>
+    <text x="86" y="216" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#f0b429">PANEL FILAMENT</text>
+    <text xml:space="preserve" x="86" y="244" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#6b7688">CreateUser.php</text>
+    <rect x="60" y="272" width="510" height="76" fill="#f0b429" opacity="0.07"/>
+    <rect x="60" y="272" width="3" height="76" fill="#f0b429"/>
+    <text xml:space="preserve" x="86" y="300" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9"><tspan fill="#ff7b72">return</tspan> <tspan fill="#d2a8ff">resolve</tspan>(<tspan fill="#79c0ff">CreateUserAction</tspan>::class)</text>
+    <text xml:space="preserve" x="86" y="330" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9">    -&gt;<tspan fill="#d2a8ff">execute</tspan>(<tspan fill="#79c0ff">UserData</tspan>::<tspan fill="#d2a8ff">fromArray</tspan>(</text>
+    <text xml:space="preserve" x="86" y="372" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9">        <tspan fill="#ffa657">$data</tspan></text>
+    <text xml:space="preserve" x="86" y="402" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9">    ));</text>
+    <text x="86" y="450" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#6b7688">datos del formulario</text>
+  </g>
+
+  <g>
+    <rect x="630" y="180" width="510" height="300" rx="10" fill="#171b22" stroke="#262c36"/>
+    <text x="656" y="216" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#58a6ff">API</text>
+    <text xml:space="preserve" x="656" y="244" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#6b7688">UserController.php</text>
+    <rect x="630" y="272" width="510" height="76" fill="#f0b429" opacity="0.07"/>
+    <rect x="630" y="272" width="3" height="76" fill="#f0b429"/>
+    <text xml:space="preserve" x="656" y="300" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9"><tspan fill="#ff7b72">return</tspan> <tspan fill="#d2a8ff">resolve</tspan>(<tspan fill="#79c0ff">CreateUserAction</tspan>::class)</text>
+    <text xml:space="preserve" x="656" y="330" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9">    -&gt;<tspan fill="#d2a8ff">execute</tspan>(<tspan fill="#79c0ff">UserData</tspan>::<tspan fill="#d2a8ff">fromArray</tspan>(</text>
+    <text xml:space="preserve" x="656" y="372" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9">        <tspan fill="#ffa657">$request</tspan>-&gt;<tspan fill="#d2a8ff">validated</tspan>()</text>
+    <text xml:space="preserve" x="656" y="402" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#c9d1d9">    ));</text>
+    <text x="656" y="450" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#6b7688">datos de la petición</text>
+  </g>
+
+  <text x="60" y="545" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="21" fill="#c9d1d9">Lo único que cambia es de dónde salen los datos.</text>
+  <text xml:space="preserve" x="60" y="586" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" fill="#8b97a8">laravel new mi-app --using=orebarranco/filament-ddd-starter</text>
+</svg>

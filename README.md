@@ -9,6 +9,82 @@ Pensado para proyectos en español: el panel, los mensajes de validación y los 
 de prueba vienen en español de fábrica (`APP_LOCALE=es`, `APP_FAKER_LOCALE=es_ES`).
 Para cambiarlo, ajusta esas variables en tu `.env`.
 
+![La misma Action consumida desde el panel de Filament y desde un controlador de API](art/una-sola-vez.svg)
+
+## La lógica de negocio se escribe una vez
+
+Un caso de uso vive en una Action, y la Action no sabe quién la llama. El panel de
+Filament la consume hoy; una API, un comando de consola o un job la consumen mañana
+sin reescribir ni adaptar nada.
+
+Así crea un usuario el panel — es el fichero completo, no un extracto:
+
+```php
+// app/Filament/Resources/Users/Pages/CreateUser.php
+protected function handleRecordCreation(array $data): Model
+{
+    return resolve(CreateUserAction::class)->execute(UserData::fromArray($data));
+}
+```
+
+Y así lo haría un controlador de API. Este fichero **no está en el kit** —no trae capa
+HTTP— pero no hace falta tocar el dominio para escribirlo:
+
+```php
+public function store(StoreUserRequest $request): JsonResource
+{
+    $user = resolve(CreateUserAction::class)->execute(UserData::fromArray($request->validated()));
+
+    return new UserResource($user);
+}
+```
+
+La misma Action, el mismo DTO, la misma línea. Lo único que cambia es de dónde salen los
+datos: del formulario o de la petición. Ahí está la diferencia con un CRUD de Filament
+donde la lógica vive dentro de la Page: ese código no se puede llamar desde otro sitio, y
+cuando llega la API se copia.
+
+Las Actions no importan nada de Filament ni de HTTP:
+
+```php
+public function execute(UserData $data): User               // CreateUserAction
+public function execute(User $user, UserData $data): User   // UpdateUserAction
+public function execute(User $user): bool                   // DeleteUserAction
+```
+
+No es una promesa: los tests unitarios ya son ese segundo consumidor. Llaman a
+`resolve(CreateUserAction::class)->execute($data)` sin panel, sin Livewire y sin HTTP.
+
+**La costura honesta**: `Domain\Identity\Models\User` sí implementa `FilamentUser` y su
+`canAccessPanel()` recibe un `Filament\Panel`. Es el único punto de todo `src/Domain/`
+que conoce Filament, y es deliberado: el contrato de acceso al panel tiene que vivir en
+el modelo. Las Actions y los DTO quedan limpios.
+
+## Arquitectura
+
+> Basada en **Laravel Beyond CRUD** de Brent Roose (Spatie).
+
+La lógica de negocio vive en `src/Domain/`, completamente separada de la capa HTTP y de Filament:
+
+```
+src/Domain/
+└── Identity/           ← Dominio de usuarios y roles
+    ├── Actions/        ← Casos de uso (CreateUserAction, UpdateUserAction…)
+    ├── DataTransferObjects/   ← UserData (readonly, fromArray)
+    └── Models/         ← User (Eloquent puro)
+
+app/Filament/Resources/ ← UI delegando a Domain Actions
+app/Policies/           ← Autorización vía Spatie Permission
+```
+
+### Flujo de una operación
+
+```
+Filament Page → DTO::fromArray($data) → resolve(XxxAction::class)->execute(dto) → Model
+```
+
+Las Pages de Filament solo construyen el DTO y delegan. Nunca contienen lógica de negocio.
+
 ## Stack
 
 | Capa | Tecnología |
@@ -103,31 +179,6 @@ BACKUP_NOTIFICATIONS_EMAIL=tu@ejemplo.com
 
 El calendario está en `routes/console.php`: limpieza y monitorización diarias,
 y dos copias al día.
-
-## Arquitectura
-
-> Basada en **Laravel Beyond CRUD** de Brent Roose (Spatie).
-
-La lógica de negocio vive en `src/Domain/`, completamente separada de la capa HTTP y de Filament:
-
-```
-src/Domain/
-└── Identity/           ← Dominio de usuarios y roles
-    ├── Actions/        ← Casos de uso (CreateUserAction, UpdateUserAction…)
-    ├── DataTransferObjects/   ← UserData (readonly, fromArray)
-    └── Models/         ← User (Eloquent puro)
-
-app/Filament/Resources/ ← UI delegando a Domain Actions
-app/Policies/           ← Autorización vía Spatie Permission
-```
-
-### Flujo de una operación
-
-```
-Filament Page → DTO::fromArray($data) → resolve(XxxAction::class)->execute(dto) → Model
-```
-
-Las Pages de Filament solo construyen el DTO y delegan. Nunca contienen lógica de negocio.
 
 ## Crear un nuevo dominio
 
