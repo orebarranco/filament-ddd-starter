@@ -5,6 +5,31 @@ Todos los cambios relevantes de este proyecto se documentan aquí.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
 el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.1] - 2026-10-19
+
+### Seguridad
+
+- Actualizados `league/commonmark` a 2.10.4, `league/flysystem` a 3.36.0 y
+  `laravel/framework` a 13.37.0, que cierran cuatro advisorías: una denegación
+  de servicio y un bypass del filtro de HTML en commonmark, un bypass del
+  normalizador de rutas en flysystem y un XSS en la página de debug de
+  Laravel. El `composer.lock` viaja con el kit y `create-project` instala desde
+  él, así que todo proyecto nuevo heredaba esas versiones.
+
+### Corregido
+
+- **Una instalación nueva acababa en un panel en el que nadie podía entrar.**
+  Los dos puntos de entrada del instalador migraban y se detenían ahí: sin
+  permisos, sin roles y sin administrador. Ahora también siembran la base de
+  datos.
+
+### Cambiado
+
+- El README empieza por el patrón de Actions sobre el que se construye el kit,
+  y deja de listar pasos de instalación que el propio kit ya ejecuta.
+- Dependencias de desarrollo de npm actualizadas: vite 8.3.4, axios 1.20.0 y
+  concurrently.
+
 ## [1.0.0] - 2026-08-22
 
 Primera versión publicada.
@@ -69,4 +94,5 @@ Primera versión publicada.
 - El usuario «Test User» sin rol del seeder, sustituido por el administrador
   real que crea `SuperAdminSeeder`.
 
+[1.0.1]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.1
 [1.0.0]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.0
