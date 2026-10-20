@@ -18,6 +18,7 @@
         "pulse-development",
         "pest-testing",
         "tailwindcss-development",
+        "filament-development",
         "laravel-backup"
     ]
 }
