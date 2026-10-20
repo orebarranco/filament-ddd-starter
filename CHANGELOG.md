@@ -5,6 +5,23 @@ Todos los cambios relevantes de este proyecto se documentan aquí.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
 el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.2] - 2026-10-19
+
+### Seguridad
+
+- Filament actualizado a 5.10.2. Hasta la 5.8.2, las acciones de gestión de la
+  autenticación multifactor por app se ejecutaban sin volver a pedir la
+  contraseña. El kit no activa MFA, pero cualquier proyecto que lo active
+  heredaba el fallo desde el `composer.lock`.
+
+### Cambiado
+
+- Assets del panel regenerados para Filament 5.10.2, sin las fuentes Inter de
+  la versión anterior, que ya nada referenciaba.
+- Las guidelines de Filament para agentes pasan a cargarse como la skill
+  `filament-development` de Boost en lugar de ir dentro de `AGENTS.md` y
+  `CLAUDE.md`.
+
 ## [1.0.1] - 2026-10-19
 
 ### Seguridad
@@ -94,5 +111,6 @@ Primera versión publicada.
 - El usuario «Test User» sin rol del seeder, sustituido por el administrador
   real que crea `SuperAdminSeeder`.
 
+[1.0.2]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.2
 [1.0.1]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.1
 [1.0.0]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.0
