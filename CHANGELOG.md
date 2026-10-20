@@ -5,7 +5,16 @@ Todos los cambios relevantes de este proyecto se documentan aquí.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
 el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.3] - 2026-10-20
+
+Mismo código que 1.0.2. Packagist registró 1.0.2 sobre el commit de 1.0.1 y
+no permite cambiar el commit de una versión ya publicada, así que 1.0.2 nunca
+llegó a instalarse con `composer create-project`. Esta versión es la que lleva
+de verdad los cambios de 1.0.2.
+
 ## [1.0.2] - 2026-10-19
+
+No disponible en Packagist: usa 1.0.3.
 
 ### Seguridad
 
@@ -111,6 +120,7 @@ Primera versión publicada.
 - El usuario «Test User» sin rol del seeder, sustituido por el administrador
   real que crea `SuperAdminSeeder`.
 
+[1.0.3]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.3
 [1.0.2]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.2
 [1.0.1]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.1
 [1.0.0]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.0
