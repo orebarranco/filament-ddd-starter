@@ -5,6 +5,29 @@ Todos los cambios relevantes de este proyecto se documentan aquí.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
 el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.4] - 2026-10-21
+
+### Seguridad
+
+- `symfony/yaml` actualizado a 8.1.9, que cierra CVE-2026-109413: una
+  recursión sin límite en el lexer de YAML inline permitía tumbar el proceso
+  con un solo documento. Llega como dependencia de desarrollo vía
+  `laravel/sail` y `laravel/roster`.
+- `follow-redirects` actualizado a 1.16.1, que cierra CVE-2026-111755 y
+  CVE-2026-111756: las cabeceras con credenciales podían viajar a otro origen
+  tras una redirección. Llega como dependencia de desarrollo vía `axios`.
+
+### Cambiado
+
+- Dependencias actualizadas. Guzzle pasa a 8.x como dependencia transitiva del
+  framework; el kit no lo usa directamente.
+- `laravel-lang/common` acotado a `^6.8`: la restricción abierta `>=6.8` dejaba
+  entrar una versión mayor futura sin elegirla.
+- `User` y `UserFactory` se enlazan con los atributos `#[UseFactory]` y
+  `#[UseModel]` en lugar de `newFactory()` y `$model`. Las reglas de DDD exigen
+  el par en todo modelo de dominio nuevo.
+- La skill `pest-testing` de Boost pasa a ser `testing-best-practices`.
+
 ## [1.0.3] - 2026-10-20
 
 Mismo código que 1.0.2. Packagist registró 1.0.2 sobre el commit de 1.0.1 y
@@ -120,6 +143,7 @@ Primera versión publicada.
 - El usuario «Test User» sin rol del seeder, sustituido por el administrador
   real que crea `SuperAdminSeeder`.
 
+[1.0.4]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.4
 [1.0.3]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.3
 [1.0.2]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.2
 [1.0.1]: https://github.com/orebarranco/filament-ddd-starter/releases/tag/v1.0.1
