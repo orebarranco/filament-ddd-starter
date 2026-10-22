@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Domain\Identity\Models\User;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -13,13 +14,9 @@ use Spatie\Permission\Models\Role;
 /**
  * @extends Factory<User>
  */
+#[UseModel(User::class)]
 final class UserFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     */
-    protected $model = User::class;
-
     /**
      * The current password being used by the factory.
      */

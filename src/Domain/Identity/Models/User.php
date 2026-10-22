@@ -10,6 +10,7 @@ use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,6 +28,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
  */
+#[UseFactory(UserFactory::class)]
 #[UsePolicy(UserPolicy::class)]
 final class User extends Authenticatable implements FilamentUser
 {
@@ -97,11 +99,6 @@ final class User extends Authenticatable implements FilamentUser
         }
 
         return $this->active && $this->roles()->exists();
-    }
-
-    protected static function newFactory(): UserFactory
-    {
-        return UserFactory::new();
     }
 
     /**

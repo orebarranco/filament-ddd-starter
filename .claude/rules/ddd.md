@@ -36,6 +36,8 @@ Eloquent puro: relaciones, casts, scopes, factory. Sin lógica de negocio.
 
 ```php
 // src/Domain/Identity/Models/User.php
+#[UseFactory(UserFactory::class)]
+#[UsePolicy(UserPolicy::class)]
 final class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, HasRoles, Notifiable;
@@ -122,6 +124,21 @@ php artisan make:model --no-interaction NombreDominio/NombreModelo
 # Cambiar namespace a Domain\NombreDominio\Models\
 ```
 > Nota: `make:model` no ubica en `src/Domain/` automáticamente. Muévelo y ajusta el namespace.
+
+**2b. Enlazar modelo y factory con atributos — OBLIGATORIO:**
+```php
+// src/Domain/NombreDominio/Models/NombreModelo.php
+#[UseFactory(NombreModeloFactory::class)]
+final class NombreModelo extends Model
+
+// database/factories/NombreModeloFactory.php
+#[UseModel(NombreModelo::class)]
+final class NombreModeloFactory extends Factory
+```
+Laravel deduce la factory y el modelo por convención de nombres a partir de `App\Models\`. Con
+los modelos en `Domain\{Dominio}\Models\` la deducción falla, así que el enlace se declara en los
+dos lados con atributos. No se usan `newFactory()` ni `protected $model`: el atributo es la única
+forma del proyecto.
 
 **3. Crear la migración:**
 ```bash
