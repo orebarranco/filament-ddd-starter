@@ -6,6 +6,8 @@ use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\Config\RectorConfig;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use RectorLaravel\Rector\Class_\DescriptionPropertyToDescriptionAttributeRector;
+use RectorLaravel\Rector\Class_\SignaturePropertyToSignatureAttributeRector;
 use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
@@ -40,6 +42,8 @@ return RectorConfig::configure()
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         MakeInheritedMethodVisibilitySameAsParentRector::class,
+        DescriptionPropertyToDescriptionAttributeRector::class,
+        SignaturePropertyToSignatureAttributeRector::class,
         // Regenerated verbatim by `shield:seeder`, so it has to stay faithful
         // to the vendor stub. Normalising it here means every regeneration
         // arrives as a diff against our own rules. Skipping is by path: Rector
