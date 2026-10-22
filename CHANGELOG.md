@@ -13,6 +13,9 @@ el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
   recursión sin límite en el lexer de YAML inline permitía tumbar el proceso
   con un solo documento. Llega como dependencia de desarrollo vía
   `laravel/sail` y `laravel/roster`.
+- `follow-redirects` actualizado a 1.16.1, que cierra CVE-2026-111755 y
+  CVE-2026-111756: las cabeceras con credenciales podían viajar a otro origen
+  tras una redirección. Llega como dependencia de desarrollo vía `axios`.
 
 ### Cambiado
 
